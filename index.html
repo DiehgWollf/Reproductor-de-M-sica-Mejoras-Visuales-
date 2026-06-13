@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinfony Music - Reproductor Premium</title>
+    
+    <!-- IMPORTACIÓN DE FUENTES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght=0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <!-- ENLACE AL ARCHIVO CSS EXTERNO: Aquí conectamos este HTML con nuestro archivo "style.css" -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- BARRA SUPERIOR (Encabezado con logo y buscador) -->
+    <header class="top-bar">
+        <div class="logo-section">
+            <svg class="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" title="Logo Místico Marrón">
+                <defs>
+                    <linearGradient id="brownHair" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#b8a79d" />
+                        <stop offset="100%" stop-color="#736156" />
+                    </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="46" fill="rgba(141, 128, 120, 0.08)" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1.5"/>
+                <path d="M 67.5,53.5 C 70.5,53.5 72,56 72,59 C 72,62 69.5,63.5 67,63" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1.2" fill="#fffdfa" stroke-linejoin="round"/>
+                <ellipse cx="45" cy="57" rx="23" ry="17" transform="rotate(-3, 45, 57)" fill="#fffdfa" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1"/>
+                <path d="M 21,52 C 14,41 22,23 35,25 C 41,15 56,14 62,23 C 71,19 79,27 76,38 C 79.5,43 76.5,52 71,51 C 67,46 61,44 61,42 C 61,41 55,42 51,43.5 C 45,47 41,46 36.5,41 C 29,41 24,43 21,52 Z" fill="url(#brownHair)" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M 30,32 C 27,27.5 33.5,22 39,25" stroke="rgba(255, 255, 255, 0.3)" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M 49,21 C 52,17 60,20 58.5,26" stroke="rgba(255, 255, 255, 0.3)" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="logo-text">Sinfony Music</span>
+        </div>
+
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" placeholder="Buscar canción o artista..." autocomplete="off">
+        </div>
+
+        <div class="top-bar-nav">Reproductor de Audio Premium v2.5</div>
+    </header>
+
+    <!-- Cuerpo principal -->
+    <div class="app-container">
+        <!-- Panel Izquierdo: Playlists colapsables (Acordeón) -->
+        <div class="sidebar">
+            <div class="sidebar-header">Mi Playlist</div>
+            <div class="playlist" id="playlist"></div>
+        </div>
+
+        <!-- Panel Centro: Tocadiscos interactivo con sus decoraciones -->
+        <div class="main-view">
+            <!-- CAPA DIFUMINADA DETRÁS DEL TOCADISCOS -->
+            <div class="deck-glow-backdrop"></div>
+
+            <!-- Ilustración Decorativa Izquierda -->
+            <img src="IMG-20260527-WA0003.png" onerror="this.src='https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=200&h=200&fit=crop'" alt="Decoración Izquierda" class="deck-decor-left">
+            
+            <!-- Ilustración Decorativa Derecha -->
+            <img src="IMG-20260527-WA0002.png" onerror="this.src='https://images.unsplash.com/photo-1515462277126-270d878326e5?w=200&h=200&fit=crop'" alt="Decoración Derecha" class="deck-decor-right">
+
+            <div class="turntable-deck" id="cover-container">
+                <div class="turntable-platter">
+                    <div class="main-vinyl" id="main-vinyl">
+                        <div class="vinyl-grooves"></div>
+                        <div class="main-vinyl-center">
+                            <img id="cover" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=400&fit=crop" onerror="this.src='https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=400&h=400&fit=crop'" alt="Portada de canción actual">
+                        </div>
+                    </div>
+                </div>
+                <div class="tonearm-assembly">
+                    <div class="tonearm-pivot"></div>
+                    <div class="tonearm-arm">
+                        <div class="tonearm-headshell">
+                            <div class="tonearm-needle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="main-info">
+                <h2 id="title">Cargando canción...</h2>
+                <p id="artist">Artista</p>
+            </div>
+        </div>
+
+        <!-- Panel Derecho: Lista de todas las canciones -->
+        <div class="right-sidebar">
+            <div class="right-sidebar-header">Lista de Canciones Disponibles</div>
+            <div class="right-songs-list" id="right-songs-list"></div>
+        </div>
+    </div>
+
+    <!-- Panel de control de reproducción inferior -->
+    <div class="bottom-player-bar">
+        <div class="timeline-container">
+            <input type="range" id="progress-bar" min="0" max="100" value="0">
+        </div>
+
+        <div class="bar-left">
+            <div class="mini-cover">
+                <img id="mini-cover-img" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=200&h=200&fit=crop" onerror="this.src='https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=200&h=200&fit=crop'" alt="Miniatura">
+            </div>
+            <div class="bar-song-details">
+                <h4 id="bar-title">Canción</h4>
+                <p id="bar-artist">Artista</p>
+            </div>
+        </div>
+
+        <div class="bar-center">
+            <button class="btn-nav" id="prevBtn" title="Anterior (Flecha Izquierda)">Anterior ⏮</button>
+            <button class="btn-play" id="playBtn" title="Play/Pausa (Espacio)">▶</button>
+            <button class="btn-nav" id="nextBtn" title="Siguiente (Flecha Derecha)">⏭ Siguiente</button>
+        </div>
+
+        <div class="bar-right">
+            <div class="time-display">
+                <span id="current-time">0:00</span> / <span id="duration-time">0:00</span>
+            </div>
+            
+            <div class="volume-control" id="volumeControl">
+                <button class="volume-btn" id="volumeIcon" title="Silenciar/Activar Sonido"></button>
+                <div class="volume-slider-container">
+                    <input type="range" class="volume-slider" id="volume-bar" min="0" max="100" value="70">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- REPRODUCTOR DE AUDIO REAL -->
+    <audio id="audio-player"></audio>
+
+    <!-- ENLACE AL ARCHIVO JAVASCRIPT EXTERNO: Conectamos este HTML con nuestro archivo de lógica "script.js" -->
+    <script src="script.js"></script>
+</body>
+</html>
